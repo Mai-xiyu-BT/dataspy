@@ -1,24 +1,52 @@
-PolyForm Noncommercial License 1.0.0
+# Dual Licensing
 
-<https://polyformproject.org/licenses/noncommercial/1.0.0>
+This project is available under two licenses:
 
-## Acceptance
+## 1. Open Source License (MIT)
 
-You must agree to these terms to use this software.
+Free for personal, educational, and open-source projects.
 
-## Copyright License
+You must:
+- Include copyright notice
+- Include license text
+- State changes if you modify
 
-The licensor grants you a copyright license for noncommercial purposes.
+See [LICENSE-MIT](LICENSE-MIT) for full text.
 
-## Noncommercial Purposes
+## 2. Commercial License
 
-Personal, educational, research, and hobby use are permitted.
-Commercial use requires a separate license.
+For businesses that want to:
+- Use in proprietary/closed-source products
+- Remove attribution requirements
+- Get dedicated support
+- Receive custom modifications
 
-## Commercial Licensing
+**Pricing:**
+- **Startup** (<$1M revenue): $99/year per project
+- **Business** ($1M-$10M): $499/year per project  
+- **Enterprise** (>$10M): $1,999/year per project
+- **Unlimited**: $4,999/year all projects
 
-For commercial use, contact the author for pricing.
+**Contact:** Open an issue on GitHub for commercial licensing inquiries.
 
-## No Warranty
+## FAQ
 
-This software is provided as-is without any warranty.
+**Q: Can I use the MIT version in my commercial product?**
+A: Yes, but you must include the license and copyright notice. Buy commercial license if you want to remove these requirements.
+
+**Q: What's included in commercial license?**
+A: Right to use without attribution, priority support, feature requests, custom development discounts.
+
+**Q: Do I own the code I write using this project?**
+A: Yes, your code is yours. The license only applies to our code.
+
+**Q: Can I redistribute under MIT?**
+A: Yes, but recipients also get MIT license rights.
+
+---
+
+**Why dual license?**
+
+We love open source and want everyone to benefit. But we also need to sustain development. Commercial licensing allows businesses to use our work conveniently while supporting the project.
+
+**You are the original author (原厂).** All rights reserved.

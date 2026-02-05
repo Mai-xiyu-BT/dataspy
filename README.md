@@ -96,8 +96,26 @@ DataSpy can be monetized as:
 - Requests (HTTP)
 - Optional: Playwright (browser rendering)
 
-## License
+## License - Dual Licensing
 
-PolyForm Noncommercial License 1.0.0
+### Open Source (MIT)
+Free for personal, educational, and open-source projects. Must include attribution.
 
-Commercial licensing available.
+See [LICENSE-MIT](LICENSE-MIT) for details.
+
+### Commercial License
+For businesses wanting to:
+- Use in proprietary products
+- Remove attribution
+- Get dedicated support
+
+**Pricing:**
+- Startup (<$1M): $99/year per project
+- Business ($1M-$10M): $499/year per project
+- Enterprise (>$10M): $1,999/year per project
+- Unlimited: $4,999/year all projects
+
+**Contact:** Open a GitHub issue for commercial licensing.
+
+### You Are Buying From the Original Author (原厂)
+All rights reserved by the original developers.
