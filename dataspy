@@ -1,0 +1,117 @@
+#!/usr/bin/env python3
+"""
+DataSpy CLI - Command line interface
+"""
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+# Add src to path
+sys.path.insert(0, str(Path(__file__).parent / "src"))
+
+from core import DataSpyCore, MonitorTask, ChangeType
+
+def main():
+    parser = argparse.ArgumentParser(description="DataSpy - Data Monitoring Service")
+    subparsers = parser.add_subparsers(dest="command", help="Commands")
+    
+    # Add task
+    add_parser = subparsers.add_parser("add", help="Add monitoring task")
+    add_parser.add_argument("--id", required=True, help="Task ID")
+    add_parser.add_argument("--name", required=True, help="Task name")
+    add_parser.add_argument("--url", required=True, help="URL to monitor")
+    add_parser.add_argument("--type", default="full_page", 
+                           choices=["full_page", "selector", "api"],
+                           help="Check type")
+    add_parser.add_argument("--interval", type=int, default=3600,
+                           help="Check interval in seconds")
+    
+    # List tasks
+    subparsers.add_parser("list", help="List all tasks")
+    
+    # Check now
+    check_parser = subparsers.add_parser("check", help="Check task now")
+    check_parser.add_argument("task_id", help="Task ID to check")
+    
+    # Remove task
+    rm_parser = subparsers.add_parser("remove", help="Remove task")
+    rm_parser.add_argument("task_id", help="Task ID to remove")
+    
+    # Show events
+    events_parser = subparsers.add_parser("events", help="Show change events")
+    events_parser.add_argument("--task", help="Filter by task ID")
+    events_parser.add_argument("--limit", type=int, default=20)
+    
+    # Start monitor
+    monitor_parser = subparsers.add_parser("monitor", help="Start monitoring daemon")
+    monitor_parser.add_argument("--interval", type=int, default=60,
+                               help="Main loop interval")
+    
+    args = parser.parse_args()
+    
+    spy = DataSpyCore()
+    
+    if args.command == "add":
+        task = MonitorTask(
+            id=args.id,
+            name=args.name,
+            url=args.url,
+            check_type=args.type,
+            check_interval=args.interval
+        )
+        result = spy.add_task(task)
+        print(json.dumps(result, indent=2))
+    
+    elif args.command == "list":
+        tasks = []
+        for task_id, task in spy.tasks.items():
+            tasks.append({
+                "id": task.id,
+                "name": task.name,
+                "url": task.url[:50] + "..." if len(task.url) > 50 else task.url,
+                "interval": f"{task.check_interval//60}m",
+                "enabled": task.enabled,
+                "last_check": task.last_check.isoformat() if task.last_check else "Never"
+            })
+        print(json.dumps(tasks, indent=2))
+    
+    elif args.command == "check":
+        print(f"Checking {args.task_id}...")
+        event = spy.check_task(args.task_id)
+        if event:
+            print(f"🚨 CHANGE DETECTED!")
+            print(json.dumps({
+                "type": event.change_type.value,
+                "time": event.timestamp.isoformat(),
+                "summary": event.diff_summary
+            }, indent=2))
+        else:
+            print("✓ No changes")
+    
+    elif args.command == "remove":
+        # TODO: Implement removal
+        print(f"Removing {args.task_id}...")
+    
+    elif args.command == "events":
+        events = spy.get_events(args.task, args.limit)
+        events_data = []
+        for e in events:
+            events_data.append({
+                "id": e.id[:20] + "...",
+                "task": e.task_id,
+                "time": e.timestamp.strftime("%Y-%m-%d %H:%M"),
+                "type": e.change_type.value,
+                "summary": e.diff_summary
+            })
+        print(json.dumps(events_data, indent=2))
+    
+    elif args.command == "monitor":
+        spy.run_monitor(args.interval)
+    
+    else:
+        parser.print_help()
+
+if __name__ == "__main__":
+    main()
